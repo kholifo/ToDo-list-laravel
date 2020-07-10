@@ -1,78 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="col-sm-offset-2 col-sm-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                New Task
+    <div class="container d-flex mt-5 col-md-6">
+        <form action="{{ url('tasks') }}" method="POST" class="input-group mb-3">
+            {{ csrf_field() }}
+            <input type="text" name="name" id="task-name" class="form-control" placeholder="What needs to be done?">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary">Add task</button>
             </div>
-
-            <div class="panel-body">
-                <!-- Display Validation Errors -->
-            @include('layouts.error')
-
-            <!-- New Task Form -->
-                <form action="{{ url('tasks') }}" method="POST" class="form-horizontal">
-                {{ csrf_field() }}
-
-                <!-- Task Name -->
-                    <div class="form-group">
-                        <label for="task-name" class="col-sm-3 control-label">Task</label>
-
-                        <div class="col-sm-6">
-                            <input type="text" name="name" id="task-name" class="form-control" value="{{ old('task') }}">
+        </form>
+    </div>
+    @include('layouts.error')
+    <!-- Task Block -->
+    @if (count($tasks) > 0)
+        <div class="container mt-5">
+            <div class="d-flex justify-content-center row">
+                <div class="col-md-8">
+                    <div class="pl-4 pb-2 bg-light notes">
+                        <div class="d-flex flex-row align-items-center notes-title">
+                            <h4>Current tasks</h4>
                         </div>
                     </div>
-
-                    <!-- Add Task Button -->
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-6">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fa fa-btn fa-plus"></i>Add Task
-                            </button>
-                        </div>
+                    <div class="p-3 bg-color">
+                        @foreach ($tasks as $task)
+                            <div class="d-flex align-items-center">
+                                <label><input type="checkbox" class="option-input radio"><span class="label-text">{{ $task->name }}</span></label>
+                            <div>
+                                <form action="{{ url('tasks/' . $task->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" id="delete-task-{{ $task->id }}" class="btn border-info">Delete</button>
+                                </form></div>
+                            </div>
+                        @endforeach
                     </div>
-                </form>
+                </div>
             </div>
         </div>
+    @endif
 
-        <!-- Current Tasks -->
-        @if (count($tasks) > 0)
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Current Tasks
-                </div>
-
-                <div class="panel-body">
-                    <table class="table table-striped task-table">
-                        <thead>
-                        <th>Task</th>
-                        <th>&nbsp;</th>
-                        </thead>
-                        <tbody>
-                        @foreach ($tasks as $task)
-                            <tr>
-                                <td class="table-text"><div>{{ $task->name }}</div></td>
-
-                                <!-- Task Delete Button -->
-                                <td>
-                                    <form action="{{url('tasks/' . $task->id)}}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-
-                                        <button type="submit" id="delete-task-{{ $task->id }}" class="btn btn-danger">
-                                            <i class="fa fa-btn fa-trash"></i>Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        @endif
-    </div>
-</div>
 @endsection

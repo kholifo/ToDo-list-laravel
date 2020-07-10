@@ -9,8 +9,8 @@ class TaskRepository
 {
     public function forUser(User $user)
     {
-        $user_id = $user->id;
-        return Task::orderBy('created_at', 'asc')
+        return Task::where('user_id', $user->id)
+                    ->orderBy('created_at', 'asc')
                     ->get();
     }
 }

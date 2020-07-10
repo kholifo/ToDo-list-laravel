@@ -30,7 +30,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:255|min:4|unique:tasks',
+            'name' => 'required|max:255|min:4',
         ]);
 
         $request->user()->tasks()->create([
