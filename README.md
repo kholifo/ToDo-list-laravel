@@ -1,10 +1,10 @@
 # ToDo List
 
-Hi! Here is a simple **ToDo list** built in laravel with multiple users . 
+Hi! Here is a simple **ToDo list** built in laravel with multiple users. 
 
 ## Demo
 
-**Working on it!**
+[**Click to watch!**](http://kholifo-todo-laravel.herokuapp.com/)
 
 ## Installation
 
@@ -14,7 +14,7 @@ git clone https://github.com/kholifo/ToDo-list-laravel.git
 ```
 - Move into the folder with this command
 ```
-cd ToDo list
+cd ToDo-list-laravel
 ```
 - Do a composer install
 
